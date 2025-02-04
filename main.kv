@@ -1,0 +1,13 @@
+BoxLayout:
+    orientation: 'vertical'
+    TextInput:
+        id: token_input
+        hint_text: 'Please enter token'
+    Button:
+        text: 'Submit'
+        on_press: app.start_app(token_input.text)
+    BoxLayout:
+        id: menu
+        orientation: 'vertical'
+        size_hint_y: None
+        height: self.minimum_height
