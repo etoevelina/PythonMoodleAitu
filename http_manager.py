@@ -58,7 +58,6 @@ class HttpManager:
     def get_deadlines(self, token):
         base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/deadlines/get_deadlines/"
         url = base_url + token
-
         try:
             response = requests.get(url)
             if response.status_code == 200:

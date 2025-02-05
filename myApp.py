@@ -32,6 +32,5 @@ class MyApp:
     def start(self):
         token = input("Please enter token: ")
         self.main_menu(token)
-
 if __name__ == "__main__":
     MyApp()
