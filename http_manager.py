@@ -1,12 +1,13 @@
 import requests
 import json
+import os
 
 class HttpManager:
     def __init__(self):
         pass
 
     def get_user_info(self, token):
-        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/users/get_user/"
+        base_url = os.getenv("USER")
         url = base_url + token
 
         try:
@@ -30,7 +31,7 @@ class HttpManager:
             return f"Exception occurred: {str(e)}"
 
     def get_courses(self, token):
-        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/courses/get_courses/"
+        base_url = os.getenv("COURSES")
         url = base_url + token
 
         try:
@@ -56,7 +57,7 @@ class HttpManager:
             return f"Exception occurred: {str(e)}"
 
     def get_deadlines(self, token):
-        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/deadlines/get_deadlines/"
+        base_url = os.getenv("DEADLINES")
         url = base_url + token
         try:
             response = requests.get(url)
@@ -79,7 +80,7 @@ class HttpManager:
             return f"Exception occurred: {str(e)}"
 
     def get_grades(self, token, course_id):
-        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/grades/get_grades/"
+        base_url = os.getenv("GRADES")
         url = base_url + token
 
         try:
