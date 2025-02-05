@@ -6,7 +6,7 @@ class HttpManager:
         pass
 
     def get_user_info(self, token):
-        base_url = "http://31.128.42.58:8080/get_user_info/"
+        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/users/get_user/"
         url = base_url + token
 
         try:
@@ -30,7 +30,7 @@ class HttpManager:
             return f"Exception occurred: {str(e)}"
 
     def get_courses(self, token):
-        base_url = "http://31.128.42.58:8080/get_courses/"
+        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/courses/get_courses/"
         url = base_url + token
 
         try:
@@ -56,7 +56,7 @@ class HttpManager:
             return f"Exception occurred: {str(e)}"
 
     def get_deadlines(self, token):
-        base_url = "http://31.128.42.58:8080/get_deadlines/"
+        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/deadlines/get_deadlines/"
         url = base_url + token
 
         try:
@@ -69,7 +69,7 @@ class HttpManager:
                     formattedtime = deadline["formattedtime"]
                     coursename = deadline["coursename"]
                     print(f"Name: {name}")
-                    print(f"Formatted Time: {formattedtime}")
+                    print(f"Deadline Time: {formattedtime}")
                     print(f"Course Name: {coursename}")
                     print("➽─────────────────────────────────────────❥")
 
@@ -80,7 +80,7 @@ class HttpManager:
             return f"Exception occurred: {str(e)}"
 
     def get_grades(self, token, course_id):
-        base_url = "http://31.128.42.58:8080/get_grades/"
+        base_url = "https://aitu-web-app-2240c1581e3e.herokuapp.com/grades/get_grades/"
         url = base_url + token
 
         try:
