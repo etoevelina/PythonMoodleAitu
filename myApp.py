@@ -1,12 +1,10 @@
-# my_app.py
 import flet as ft
 from flet import TextField, Text, Colors
 from manager.http_manager import HttpManager
 from manager.tokenManager import TokenManager
 from manager.route_manager import RouteManager
-from base_app import BaseApp
 
-class MyApp(BaseApp):
+class MyApp():
     def __init__(self):
         super().__init__()
         self.hm = HttpManager()
@@ -67,8 +65,8 @@ class MyApp(BaseApp):
             bgcolor="F2F2F2",
             border_radius=11,
         )
-        page.window.max_width = 800
-        page.window.max_height = 700
+        page.window.max_width = 1100
+        page.window.max_height = 900
         page.window.resizable = False
 
         self.route_manager = RouteManager(self, page, user_token_field, self.error_message, self.course_id_field)

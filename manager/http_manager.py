@@ -45,17 +45,45 @@ class HttpManager:
                     parts = fullname.split("|")
                     course_name = parts[0].strip()
                     teacher = parts[1].strip() if len(parts) > 1 else "Unknown"
+                    attendance = self.get_attendance_for_course(token, id)
 
                     courses.append({
                         "id": id,
                         "name": course_name,
                         "teacher": teacher,
-                        "enddate": course.get("enddate", "Unknown")
+                        "enddate": course.get("enddate", "Unknown"),
+                        "attendance": attendance
                     })
                 except KeyError as e:
                     print(f"Skipping course due to missing key: {e}")
 
             return courses
+
+        except requests.exceptions.RequestException as e:
+            return f"HTTP request failed: {str(e)}"
+        except Exception as e:
+            return f"Exception occurred: {str(e)}"
+
+    def get_attendance_for_course(self, token, course_id):
+        base_url = os.getenv("GRADES_URL")
+        url = f"{base_url}{token}"
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+
+            data = response.json()
+            if not isinstance(data, list):
+                return f"Unexpected response format: {data}"
+
+            for course in data:
+                if course["courseid"] == course_id:
+                    grade_items = course.get("gradeitems", [])
+                    for grade_item in grade_items:
+                        if "Attendance" in grade_item["itemname"]:
+                            percentage_string = grade_item["percentageformatted"].split(".")[0] or "0"
+                            return int(percentage_string)
+
+            return 0
 
         except requests.exceptions.RequestException as e:
             return f"HTTP request failed: {str(e)}"
@@ -123,3 +151,34 @@ class HttpManager:
             return f"HTTP request failed: {str(e)}"
         except Exception as e:
             return f"Exception occurred: {str(e)}"
+
+
+    def calculateTotalAttendance(self, token):
+        base_url = os.getenv("GRADES_URL")
+        url = f"{base_url}{token}"
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+
+            data = response.json()
+            if not isinstance(data, list):
+                return f"Unexpected response format: {data}"
+
+            total_attendance = 0
+            count = 0
+            for course in data:
+                grade_items = course.get("gradeitems", [])
+                for grade_item in grade_items:
+                    if grade_item["percentageformatted"] not in ["-", "0.00 %"]:
+                        name = grade_item["itemname"]
+                        if "Attendance" in name:
+                            percentage_string = grade_item["percentageformatted"].split(".")[0] or "0"
+                            attendance = int(percentage_string)
+                            total_attendance += attendance
+                            count += 1
+
+            return total_attendance/count
+
+        except requests.exceptions.RequestException as e:
+            return f"HTTP request failed: {str(e)}"
+
